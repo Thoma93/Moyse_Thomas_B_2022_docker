@@ -1,0 +1,36 @@
+version: "3"
+services:
+  web:
+    build: ./frontend
+    depends_on:
+      - api
+    ports:
+      - "3000:3000"
+    networks:
+      - back
+  api:
+    build: ./backend
+    depends_on:
+      - mongo
+    ports:
+      - "8080:8080"
+    networks: 
+     - back
+
+  mongo:
+    image: mongo
+    restart: always
+    volumes: 
+      - mongodb_data:/data/db
+    environment: 
+      MONGODB_INITDB_ROOT_USERNAME: omar
+      MONGODB_INITDB_ROOT_PASSWORD: admin
+
+    networks: 
+     - back
+
+networks:
+  back:
+
+volumes: 
+  mongodb_data:
